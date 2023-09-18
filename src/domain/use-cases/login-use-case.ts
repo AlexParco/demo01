@@ -1,11 +1,14 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable, Optional } from "@nestjs/common";
 import { User } from "../models/user";
 import { Itoken_repository } from "../repository/token-repostiory";
 import { Iuser_repository } from "../repository/user-repository";
 
+@Injectable()
 export class login_use_case {
 
-    constructor(private readonly _token_repo :Itoken_repository, private readonly  _user_repo: Iuser_repository) {}
+    constructor(
+        @Inject('TokenRepository') private readonly _token_repo :Itoken_repository,
+        @Inject('UserRepository')  private readonly  _user_repo: Iuser_repository) {}
 
     get (user: User) {
         let tempUser = this._user_repo.findByEmail(user.email.get()) 
