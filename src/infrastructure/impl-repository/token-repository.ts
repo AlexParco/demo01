@@ -8,8 +8,18 @@ import { Token } from "src/domain/models/token";
 
 @Injectable()
 export class TokenRepository implements Itoken_repository {
-    create: (user: User) => Token;
-    validate: (token: string) => boolean;
-    delete: (token: string) => boolean;
+    create (user: User): Token  {
+        return {
+            token: "jwt_123"
+        }
+    };
+
+    validate (token: string): boolean  {
+        return token === "jwt_123"
+    };
+
+    delete (token: string): boolean {
+        return true
+    };
 
 }

@@ -5,10 +5,19 @@ import { login_use_case } from './domain/use-cases/login-use-case';
 import { TokenRepository } from './infrastructure/impl-repository/token-repository';
 
 @Module({
-    // mongo library
     imports: [],
     controllers: [UserController],
-    providers: [UserRepository , TokenRepository],
+    providers: [
+        UserRepository, 
+        TokenRepository,
+        {
+            provide: 'loginUseCase',
+            useFactory: (userRepo: UserRepository, tokenRepo: TokenRepository) => {
+                return new login_use_case(userRepo, tokenRepo)
+            }, 
+            inject:[UserRepository, TokenRepository]
+        },
+    ],
 })
 
 export class AppModule {}

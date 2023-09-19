@@ -8,7 +8,6 @@ import { Password } from "../../domain/value_objects/password-value-object";
 export class UserRepository implements Iuser_repository {
 
     findByEmail (email: string): User {
-        
         return email === "alex" ? {
             email: new Email("alex"),
             password: new Password("123")

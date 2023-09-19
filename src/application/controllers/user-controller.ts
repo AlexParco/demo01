@@ -1,18 +1,19 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
-import { User } from '../../domain/models/user'
+import { Body, Controller, Get, Inject, Post } from "@nestjs/common";
+import { IUser, User } from '../../domain/models/user'
 import {login_use_case} from '../../domain/use-cases/login-use-case'
-import { UserRepository } from "src/infrastructure/impl-repository/user-repository";
+import { UserRepository } from "../..//infrastructure/impl-repository/user-repository";
 
 @Controller('user')
 export class UserController {
-    constructor(private readonly usecase: login_use_case) {
-    }
+
+    constructor(@Inject('loginUseCase') private readonly useCase: login_use_case) {}
 
     @Post('/login')
-    async loginMethod (@Body() user: User){
+    async loginMethod (@Body() user: IUser){
         // return new login_use_case().get(user);
-        let temp = this.usecase.get(user)
-        console.log(temp)
+        let temp = this.useCase.get(new User(user.email, user.password))
+
+        return temp
     }
 
     @Get('/test')
